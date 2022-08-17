@@ -3,7 +3,7 @@ pragma solidity ^0.8.13;
 
 import "forge-std/Test.sol";
 
-contract TestContract is Test {
+contract OniiChain_Test is Test {
     function setUp() public {}
 
     function testBar() public {
