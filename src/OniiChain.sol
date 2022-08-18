@@ -40,7 +40,7 @@ contract OniiChain is ERC721, Owned {
     }
 
     /* -------------------------------------------------------------------------- */
-    /*                             EXTERNAL FUNCTIONS                             */
+    /*                                  METADATA                                  */
     /* -------------------------------------------------------------------------- */
 
     function tokenURI(uint256 id) public view override returns (string memory) {
@@ -49,6 +49,10 @@ contract OniiChain is ERC721, Owned {
 
         return descriptor.tokenURI(id, owner);
     }
+
+    /* -------------------------------------------------------------------------- */
+    /*                             EXTERNAL FUNCTIONS                             */
+    /* -------------------------------------------------------------------------- */
 
     /// @notice Add liquidity to the sudoswap pool
     ///         Can add up to the max supply (with multiple calls)
