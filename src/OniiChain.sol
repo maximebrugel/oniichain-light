@@ -6,6 +6,10 @@ import {ERC721} from "solmate/tokens/ERC721.sol";
 import {IOniiChainDescriptor} from "./interfaces/IOniiChainDescriptor.sol";
 
 contract OniiChain is ERC721, Owned {
+    /* -------------------------------------------------------------------------- */
+    /*                                  CONSTANTS                                 */
+    /* -------------------------------------------------------------------------- */
+
     uint256 public constant MAX_SUPPLY = 10_000;
 
     /* -------------------------------------------------------------------------- */
@@ -22,21 +26,21 @@ contract OniiChain is ERC721, Owned {
     /*                                 CONSTRUCTOR                                */
     /* -------------------------------------------------------------------------- */
 
-    constructor(IOniiChainDescriptor _descriptor, uint256 fundSize)
+    constructor(IOniiChainDescriptor _descriptor, uint256 _fundSize)
         ERC721("OniiChain", "ONII")
         Owned(msg.sender)
     {
-        require(fundSize <= type(uint96).max, "UNSAFE_UINT96_CAST");
+        require(_fundSize <= type(uint96).max, "UNSAFE_UINT96_CAST");
         descriptor = _descriptor;
 
         // Mint team fund
         unchecked {
-            for (uint256 i = 1; i <= fundSize; ++i) {
+            for (uint256 i = 1; i <= _fundSize; ++i) {
                 _mint(msg.sender, i);
             }
         }
 
-        totalSupply = uint96(fundSize);
+        totalSupply = uint96(_fundSize);
     }
 
     /* -------------------------------------------------------------------------- */
@@ -64,6 +68,7 @@ contract OniiChain is ERC721, Owned {
 
         unchecked {
             for (uint256 i = 1; i <= quantity; ++i) {
+                // TODO, used depositNFT function from pair ?
                 _mint(sudoPair, i);
             }
         }
