@@ -2,6 +2,6 @@
 
 <h3 align="center"> Lighter sudoswap experiment </h3>
 
-![Github Actions](https://github.com/foundry-rs/forge-template/workflows/CI/badge.svg)
+![Github Actions](https://github.com/maximebrugel/oniichain-light/workflows/CI/badge.svg)
 
 *wip...*
