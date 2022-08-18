@@ -1,1 +1,2 @@
-TestContract:testBar() (gas: 401)
+OniiChain_Test:testBar() (gas: 313)
+OniiChain_Test:testFoo(uint256) (runs: 10000, μ: 3299, ~: 3299)
