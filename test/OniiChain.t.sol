@@ -5,7 +5,7 @@ import {Test} from "forge-std/Test.sol";
 import {OniiChain} from "../src/OniiChain.sol";
 import {OniiChainDescriptor} from "../src/OniiChainDescriptor.sol";
 
-contract OniiChain_Test is Test {
+contract Tests is Test {
     uint256 public constant TEAM_SUPPLY = 100;
 
     OniiChain public oniiChain;

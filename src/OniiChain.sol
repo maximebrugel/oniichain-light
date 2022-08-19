@@ -56,13 +56,6 @@ contract OniiChain is ERC721, Owned {
         return descriptor.tokenURI(id, owner);
     }
 
-    function getSVG(uint256 id) external view returns (string memory) {
-        address owner = ownerOf(id);
-        require(owner != address(0), "NONEXISTENT_TOKEN");
-
-        return descriptor.getSVG(id);
-    }
-
     /* -------------------------------------------------------------------------- */
     /*                             EXTERNAL FUNCTIONS                             */
     /* -------------------------------------------------------------------------- */

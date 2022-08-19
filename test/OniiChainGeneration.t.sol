@@ -37,7 +37,7 @@ contract Generation is Test {
                         ".svg"
                     )
                 ),
-                oniiChain.getSVG(i)
+                oniiChainDescriptor.getSVG(i)
             );
         }
     }
@@ -52,7 +52,7 @@ contract Generation is Test {
                         ".svg"
                     )
                 ),
-                oniiChain.getSVG(i)
+                oniiChainDescriptor.getSVG(i)
             );
         }
     }
@@ -67,7 +67,7 @@ contract Generation is Test {
                         ".svg"
                     )
                 ),
-                oniiChain.getSVG(i)
+                oniiChainDescriptor.getSVG(i)
             );
         }
     }
@@ -82,7 +82,7 @@ contract Generation is Test {
                         ".svg"
                     )
                 ),
-                oniiChain.getSVG(i)
+                oniiChainDescriptor.getSVG(i)
             );
         }
     }
@@ -97,7 +97,7 @@ contract Generation is Test {
                         ".svg"
                     )
                 ),
-                oniiChain.getSVG(i)
+                oniiChainDescriptor.getSVG(i)
             );
         }
     }
@@ -112,7 +112,7 @@ contract Generation is Test {
                         ".svg"
                     )
                 ),
-                oniiChain.getSVG(i)
+                oniiChainDescriptor.getSVG(i)
             );
         }
     }
@@ -127,7 +127,7 @@ contract Generation is Test {
                         ".svg"
                     )
                 ),
-                oniiChain.getSVG(i)
+                oniiChainDescriptor.getSVG(i)
             );
         }
     }
@@ -142,7 +142,7 @@ contract Generation is Test {
                         ".svg"
                     )
                 ),
-                oniiChain.getSVG(i)
+                oniiChainDescriptor.getSVG(i)
             );
         }
     }
@@ -157,7 +157,7 @@ contract Generation is Test {
                         ".svg"
                     )
                 ),
-                oniiChain.getSVG(i)
+                oniiChainDescriptor.getSVG(i)
             );
         }
     }
@@ -172,7 +172,7 @@ contract Generation is Test {
                         ".svg"
                     )
                 ),
-                oniiChain.getSVG(i)
+                oniiChainDescriptor.getSVG(i)
             );
         }
     }
