@@ -30,8 +30,9 @@ contract OniiChain is ERC721, Owned {
         ERC721("OniiChain", "ONII")
         Owned(msg.sender)
     {
-        require(_fundSize <= type(uint96).max, "UNSAFE_UINT96_CAST");
         require(_fundSize != 0, "ZERO_FUND_SIZE");
+        require(_fundSize <= MAX_SUPPLY, "MAX_SUPPLY_FUND_SIZE");
+
         descriptor = IOniiChainDescriptor(_descriptor);
 
         // Mint team fund
