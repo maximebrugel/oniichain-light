@@ -13,7 +13,8 @@ contract OniiChainDescriptor {
     /// @dev Max value for defining probabilities
     uint256 internal constant MAX = 100000;
 
-    bytes32 internal constant SEQ = "aojebva";
+    bytes32 internal constant SEQ =
+        0xa0c44ee1b09b65af4b7e3d9287e3159ceadc903834b726102400acc6f5f6b776;
 
     /* -------------------------------------------------------------------------- */
     /*                                   STORAGE                                  */
@@ -26,7 +27,7 @@ contract OniiChainDescriptor {
         2750,
         2400,
         1900,
-        1200,
+        1500,
         0
     ];
     uint256[] internal SKIN_ITEMS = [2000, 1000, 0];
@@ -192,9 +193,6 @@ contract OniiChainDescriptor {
         // Get SVGParams based on tokenID
         NFTDescriptor.SVGParams memory params = getSVGParams(tokenId);
 
-        // Compute background id based on items probabilities
-        params.background = getBackgroundId(params);
-
         // Generate SVG Image
         string memory image = Base64.encode(
             bytes(NFTDescriptor.generateSVGImage(params))
@@ -238,63 +236,66 @@ contract OniiChainDescriptor {
         return NFTDescriptor.generateSVGImage(params);
     }
 
-    /* -------------------------------------------------------------------------- */
-    /*                              PRIVATE FUNCTIONS                             */
-    /* -------------------------------------------------------------------------- */
-
     /// @dev Get SVGParams struct from the tokenID
     /// @param tokenId The Onii TokenID
     /// @return The NFTDescription.SVGParams struct
     function getSVGParams(uint256 tokenId)
-        private
+        public
         view
         returns (NFTDescriptor.SVGParams memory)
     {
-        return
-            NFTDescriptor.SVGParams({
-                hair: generateHairId(
-                    tokenId,
-                    uint256(keccak256(abi.encode("onii.hair", SEQ)))
-                ),
-                eye: generateEyeId(
-                    tokenId,
-                    uint256(keccak256(abi.encode("onii.eye", SEQ)))
-                ),
-                eyebrow: generateEyebrowId(
-                    tokenId,
-                    uint256(keccak256(abi.encode("onii.eyebrown", SEQ)))
-                ),
-                nose: generateNoseId(
-                    tokenId,
-                    uint256(keccak256(abi.encode("onii.nose", SEQ)))
-                ),
-                mouth: generateMouthId(
-                    tokenId,
-                    uint256(keccak256(abi.encode("onii.mouth", SEQ)))
-                ),
-                mark: generateMarkId(
-                    tokenId,
-                    uint256(keccak256(abi.encode("onii.mark", SEQ)))
-                ),
-                earring: generateEarringsId(
-                    tokenId,
-                    uint256(keccak256(abi.encode("onii.earrings", SEQ)))
-                ),
-                accessory: generateAccessoryId(
-                    tokenId,
-                    uint256(keccak256(abi.encode("onii.accessory", SEQ)))
-                ),
-                mask: generateMaskId(
-                    tokenId,
-                    uint256(keccak256(abi.encode("onii.mask", SEQ)))
-                ),
-                skin: generateSkinId(
-                    tokenId,
-                    uint256(keccak256(abi.encode("onii.skin", SEQ)))
-                ),
-                background: 0
-            });
+        NFTDescriptor.SVGParams memory params = NFTDescriptor.SVGParams({
+            hair: generateHairId(
+                tokenId,
+                uint256(keccak256(abi.encode("onii.hair", SEQ)))
+            ),
+            eye: generateEyeId(
+                tokenId,
+                uint256(keccak256(abi.encode("onii.eye", SEQ)))
+            ),
+            eyebrow: generateEyebrowId(
+                tokenId,
+                uint256(keccak256(abi.encode("onii.eyebrown", SEQ)))
+            ),
+            nose: generateNoseId(
+                tokenId,
+                uint256(keccak256(abi.encode("onii.nose", SEQ)))
+            ),
+            mouth: generateMouthId(
+                tokenId,
+                uint256(keccak256(abi.encode("onii.mouth", SEQ)))
+            ),
+            mark: generateMarkId(
+                tokenId,
+                uint256(keccak256(abi.encode("onii.mark", SEQ)))
+            ),
+            earring: generateEarringsId(
+                tokenId,
+                uint256(keccak256(abi.encode("onii.earrings", SEQ)))
+            ),
+            accessory: generateAccessoryId(
+                tokenId,
+                uint256(keccak256(abi.encode("onii.accessory", SEQ)))
+            ),
+            mask: generateMaskId(
+                tokenId,
+                uint256(keccak256(abi.encode("onii.mask", SEQ)))
+            ),
+            skin: generateSkinId(
+                tokenId,
+                uint256(keccak256(abi.encode("onii.skin", SEQ)))
+            ),
+            background: 0
+        });
+
+        params.background = getBackgroundId(params);
+
+        return params;
     }
+
+    /* -------------------------------------------------------------------------- */
+    /*                              PRIVATE FUNCTIONS                             */
+    /* -------------------------------------------------------------------------- */
 
     function generateHairId(uint256 tokenId, uint256 seed)
         private

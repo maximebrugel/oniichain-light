@@ -4,6 +4,7 @@ pragma solidity ^0.8.13;
 import {Test} from "forge-std/Test.sol";
 import {OniiChain} from "../src/OniiChain.sol";
 import {Strings} from "../src/libraries/Strings.sol";
+import {NFTDescriptor} from "../src/libraries/NFTDescriptor.sol";
 import {OniiChainDescriptor} from "../src/OniiChainDescriptor.sol";
 
 contract Generation is Test {
@@ -175,5 +176,64 @@ contract Generation is Test {
                 oniiChainDescriptor.getSVG(i)
             );
         }
+    }
+
+    function testBackgroundReport() public {
+        uint256 ordinary;
+        uint256 unusual;
+        uint256 surprising;
+        uint256 impressive;
+        uint256 extraordinary;
+        uint256 phenomenal;
+        uint256 artistic;
+        uint256 unreal;
+
+        for (uint256 i = 1; i <= 10000; ++i) {
+            NFTDescriptor.SVGParams memory params = oniiChainDescriptor
+                .getSVGParams(i);
+
+            uint256 id = params.background;
+
+            if (id == 1) {
+                ordinary++;
+            } else if (id == 2) {
+                unusual++;
+            } else if (id == 3) {
+                surprising++;
+            } else if (id == 4) {
+                impressive++;
+            } else if (id == 5) {
+                extraordinary++;
+            } else if (id == 6) {
+                phenomenal++;
+            } else if (id == 7) {
+                artistic++;
+            } else if (id == 8) {
+                unreal++;
+            }
+        }
+
+        string memory content = string(
+            abi.encode(
+                "Ordinary : ",
+                Strings.toString(ordinary),
+                "Unusual : ",
+                Strings.toString(unusual),
+                "Surprising : ",
+                Strings.toString(surprising),
+                "Impressive : ",
+                Strings.toString(impressive),
+                "Extraordinary : ",
+                Strings.toString(extraordinary),
+                "Phenomenal : ",
+                Strings.toString(phenomenal),
+                "Artistic : ",
+                Strings.toString(artistic),
+                "Unreal : ",
+                Strings.toString(unreal)
+            )
+        );
+
+        vm.writeLine(string("generations/background.txt"), content);
     }
 }
