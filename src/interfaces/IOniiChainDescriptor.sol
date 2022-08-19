@@ -6,4 +6,6 @@ interface IOniiChainDescriptor {
         external
         view
         returns (string memory);
+
+    function getSVG(uint256 tokenId) external view returns (string memory);
 }

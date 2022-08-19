@@ -26,12 +26,13 @@ contract OniiChain is ERC721, Owned {
     /*                                 CONSTRUCTOR                                */
     /* -------------------------------------------------------------------------- */
 
-    constructor(IOniiChainDescriptor _descriptor, uint256 _fundSize)
+    constructor(address _descriptor, uint256 _fundSize)
         ERC721("OniiChain", "ONII")
         Owned(msg.sender)
     {
         require(_fundSize <= type(uint96).max, "UNSAFE_UINT96_CAST");
-        descriptor = _descriptor;
+        require(_fundSize != 0, "ZERO_FUND_SIZE");
+        descriptor = IOniiChainDescriptor(_descriptor);
 
         // Mint team fund
         unchecked {
@@ -54,6 +55,13 @@ contract OniiChain is ERC721, Owned {
         return descriptor.tokenURI(id, owner);
     }
 
+    function getSVG(uint256 id) external view returns (string memory) {
+        address owner = ownerOf(id);
+        require(owner != address(0), "NONEXISTENT_TOKEN");
+
+        return descriptor.getSVG(id);
+    }
+
     /* -------------------------------------------------------------------------- */
     /*                             EXTERNAL FUNCTIONS                             */
     /* -------------------------------------------------------------------------- */
@@ -63,14 +71,15 @@ contract OniiChain is ERC721, Owned {
     /// @param quantity The number of Onii to mint and add to the liquidity pool
     function addLiquidity(uint96 quantity) external {
         require(sudoPair != address(0), "NOT_INITIALIZED");
-        totalSupply += quantity;
-        require(totalSupply <= MAX_SUPPLY, "MINT_LIMIT");
+        require(totalSupply + quantity <= MAX_SUPPLY, "MINT_LIMIT");
 
         unchecked {
             for (uint256 i = 1; i <= quantity; ++i) {
                 // TODO, used depositNFT function from pair ?
-                _mint(sudoPair, i);
+                _mint(sudoPair, totalSupply + i);
             }
+
+            totalSupply += quantity;
         }
     }
 
