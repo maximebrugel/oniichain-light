@@ -2,6 +2,7 @@
 pragma solidity ^0.8.13;
 
 import {Test} from "forge-std/Test.sol";
+import {console} from "forge-std/console.sol";
 import {OniiChain} from "../src/OniiChain.sol";
 import {Strings} from "../src/libraries/Strings.sol";
 import {NFTDescriptor} from "../src/libraries/NFTDescriptor.sol";
@@ -176,6 +177,23 @@ contract Generation is Test {
                 oniiChainDescriptor.getSVG(i)
             );
         }
+    }
+
+    function testNoFace() public {
+        uint256 noFaceCount;
+
+        for (uint256 i = 1; i <= 10000; ++i) {
+            NFTDescriptor.SVGParams memory params = oniiChainDescriptor
+                .getSVGParams(i);
+
+            uint256 id = params.accessory;
+
+            if (id == 15) {
+                noFaceCount++;
+                console.log(i);
+            }
+        }
+        assertEq(noFaceCount, 1);
     }
 
     function testBackgroundReport() public {
