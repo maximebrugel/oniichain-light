@@ -51,7 +51,6 @@ contract OniiChain is ERC721, Owned {
 
     function tokenURI(uint256 id) public view override returns (string memory) {
         address owner = ownerOf(id);
-        require(owner != address(0), "NONEXISTENT_TOKEN");
 
         return descriptor.tokenURI(id, owner);
     }
@@ -65,6 +64,7 @@ contract OniiChain is ERC721, Owned {
     /// @param quantity The number of Onii to mint and add to the liquidity pool
     function addLiquidity(uint96 quantity) external {
         require(sudoPair != address(0), "NOT_INITIALIZED");
+        require(quantity != 0, "QTY_ZERO");
         require(totalSupply + quantity <= MAX_SUPPLY, "MINT_LIMIT");
 
         unchecked {
