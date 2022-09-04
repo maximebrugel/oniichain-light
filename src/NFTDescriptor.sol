@@ -220,7 +220,7 @@ abstract contract NFTDescriptor {
                         getJsonAttribute(
                             "Background",
                             backgroundDetail.getItemNameById(params.background),
-                            false
+                            true
                         ),
                         "]"
                     )
