@@ -1,22 +1,50 @@
 // SPDX-License-Identifier: Unlicence
 pragma solidity ^0.8.13;
 
-import {Strings} from "./Strings.sol";
-import {DetailHelper} from "./DetailHelper.sol";
-import {BodyDetail} from "./details/BodyDetail.sol";
-import {HairDetail} from "./details/HairDetail.sol";
-import {NoseDetail} from "./details/NoseDetail.sol";
-import {EyesDetail} from "./details/EyesDetail.sol";
-import {MarkDetail} from "./details/MarkDetail.sol";
-import {MaskDetail} from "./details/MaskDetail.sol";
-import {MouthDetail} from "./details/MouthDetail.sol";
-import {EyebrowDetail} from "./details/EyebrowDetail.sol";
-import {EarringsDetail} from "./details/EarringsDetail.sol";
-import {AccessoryDetail} from "./details/AccessoryDetail.sol";
-import {BackgroundDetail} from "./details/BackgroundDetail.sol";
+import {Strings} from "./libraries/Strings.sol";
+import {IDetail} from "./interfaces/IDetail.sol";
+import {DetailHelper} from "./libraries/DetailHelper.sol";
 
 /// @notice Helper to generate SVGs
-library NFTDescriptor {
+abstract contract NFTDescriptor {
+    IDetail public immutable bodyDetail;
+    IDetail public immutable hairDetail;
+    IDetail public immutable noseDetail;
+    IDetail public immutable eyesDetail;
+    IDetail public immutable markDetail;
+    IDetail public immutable maskDetail;
+    IDetail public immutable mouthDetail;
+    IDetail public immutable eyebrowDetail;
+    IDetail public immutable earringsDetail;
+    IDetail public immutable accessoryDetail;
+    IDetail public immutable backgroundDetail;
+
+    constructor(
+        IDetail _bodyDetail,
+        IDetail _hairDetail,
+        IDetail _noseDetail,
+        IDetail _eyesDetail,
+        IDetail _markDetail,
+        IDetail _maskDetail,
+        IDetail _mouthDetail,
+        IDetail _eyebrowDetail,
+        IDetail _earringsDetail,
+        IDetail _accessoryDetail,
+        IDetail _backgroundDetail
+    ) {
+        bodyDetail = _bodyDetail;
+        hairDetail = _hairDetail;
+        noseDetail = _noseDetail;
+        eyesDetail = _eyesDetail;
+        markDetail = _markDetail;
+        maskDetail = _maskDetail;
+        mouthDetail = _mouthDetail;
+        eyebrowDetail = _eyebrowDetail;
+        earringsDetail = _earringsDetail;
+        accessoryDetail = _accessoryDetail;
+        backgroundDetail = _backgroundDetail;
+    }
+
     struct SVGParams {
         uint8 hair;
         uint8 eye;
@@ -42,18 +70,18 @@ library NFTDescriptor {
                 abi.encodePacked(
                     generateSVGHead(),
                     DetailHelper.getDetailSVG(
-                        address(BackgroundDetail),
+                        address(backgroundDetail),
                         params.background
                     ),
                     generateSVGFace(params),
                     DetailHelper.getDetailSVG(
-                        address(EarringsDetail),
+                        address(earringsDetail),
                         params.earring
                     ),
-                    DetailHelper.getDetailSVG(address(HairDetail), params.hair),
-                    DetailHelper.getDetailSVG(address(MaskDetail), params.mask),
+                    DetailHelper.getDetailSVG(address(hairDetail), params.hair),
+                    DetailHelper.getDetailSVG(address(maskDetail), params.mask),
                     DetailHelper.getDetailSVG(
-                        address(AccessoryDetail),
+                        address(accessoryDetail),
                         params.accessory
                     ),
                     "</svg>"
@@ -70,16 +98,16 @@ library NFTDescriptor {
         return
             string(
                 abi.encodePacked(
-                    DetailHelper.getDetailSVG(address(BodyDetail), params.skin),
-                    DetailHelper.getDetailSVG(address(MarkDetail), params.mark),
+                    DetailHelper.getDetailSVG(address(bodyDetail), params.skin),
+                    DetailHelper.getDetailSVG(address(markDetail), params.mark),
                     DetailHelper.getDetailSVG(
-                        address(MouthDetail),
+                        address(mouthDetail),
                         params.mouth
                     ),
-                    DetailHelper.getDetailSVG(address(NoseDetail), params.nose),
-                    DetailHelper.getDetailSVG(address(EyesDetail), params.eye),
+                    DetailHelper.getDetailSVG(address(noseDetail), params.nose),
+                    DetailHelper.getDetailSVG(address(eyesDetail), params.eye),
                     DetailHelper.getDetailSVG(
-                        address(EyebrowDetail),
+                        address(eyebrowDetail),
                         params.eyebrow
                     )
                 )
@@ -89,13 +117,13 @@ library NFTDescriptor {
     /// @dev generate Json Metadata name
     function generateName(SVGParams memory params, uint256 tokenId)
         internal
-        pure
+        view
         returns (string memory)
     {
         return
             string(
                 abi.encodePacked(
-                    BackgroundDetail.getItemNameById(params.background),
+                    backgroundDetail.getItemNameById(params.background),
                     " Onii ",
                     Strings.toString(tokenId)
                 )
@@ -131,7 +159,7 @@ library NFTDescriptor {
     /// @dev generate Json Metadata attributes
     function generateAttributes(SVGParams memory params)
         internal
-        pure
+        view
         returns (string memory)
     {
         return
@@ -140,58 +168,58 @@ library NFTDescriptor {
                     "[",
                     getJsonAttribute(
                         "Body",
-                        BodyDetail.getItemNameById(params.skin),
+                        bodyDetail.getItemNameById(params.skin),
                         false
                     ),
                     getJsonAttribute(
                         "Hair",
-                        HairDetail.getItemNameById(params.hair),
+                        hairDetail.getItemNameById(params.hair),
                         false
                     ),
                     getJsonAttribute(
                         "Mouth",
-                        MouthDetail.getItemNameById(params.mouth),
+                        mouthDetail.getItemNameById(params.mouth),
                         false
                     ),
                     getJsonAttribute(
                         "Nose",
-                        NoseDetail.getItemNameById(params.nose),
+                        noseDetail.getItemNameById(params.nose),
                         false
                     ),
                     getJsonAttribute(
                         "Eyes",
-                        EyesDetail.getItemNameById(params.eye),
+                        eyesDetail.getItemNameById(params.eye),
                         false
                     ),
                     getJsonAttribute(
                         "Eyebrow",
-                        EyebrowDetail.getItemNameById(params.eyebrow),
+                        eyebrowDetail.getItemNameById(params.eyebrow),
                         false
                     ),
                     abi.encodePacked(
                         getJsonAttribute(
                             "Mark",
-                            MarkDetail.getItemNameById(params.mark),
+                            markDetail.getItemNameById(params.mark),
                             false
                         ),
                         getJsonAttribute(
                             "Accessory",
-                            AccessoryDetail.getItemNameById(params.accessory),
+                            accessoryDetail.getItemNameById(params.accessory),
                             false
                         ),
                         getJsonAttribute(
                             "Earrings",
-                            EarringsDetail.getItemNameById(params.earring),
+                            earringsDetail.getItemNameById(params.earring),
                             false
                         ),
                         getJsonAttribute(
                             "Mask",
-                            MaskDetail.getItemNameById(params.mask),
+                            maskDetail.getItemNameById(params.mask),
                             false
                         ),
                         getJsonAttribute(
                             "Background",
-                            BackgroundDetail.getItemNameById(params.background),
+                            backgroundDetail.getItemNameById(params.background),
                             false
                         ),
                         "]"

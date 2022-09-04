@@ -2,10 +2,11 @@
 pragma solidity ^0.8.13;
 
 import {Base64} from "./libraries/Base64.sol";
+import {IDetail} from "./interfaces/IDetail.sol";
+import {NFTDescriptor} from "./NFTDescriptor.sol";
 import {DetailHelper} from "./libraries/DetailHelper.sol";
-import {NFTDescriptor} from "./libraries/NFTDescriptor.sol";
 
-contract OniiChainDescriptor {
+contract OniiChainDescriptor is NFTDescriptor {
     /* -------------------------------------------------------------------------- */
     /*                                  CONSTANTS                                 */
     /* -------------------------------------------------------------------------- */
@@ -178,6 +179,38 @@ contract OniiChainDescriptor {
     ];
 
     /* -------------------------------------------------------------------------- */
+    /*                                 CONSTRUCTOR                                */
+    /* -------------------------------------------------------------------------- */
+
+    constructor(
+        IDetail _bodyDetail,
+        IDetail _hairDetail,
+        IDetail _noseDetail,
+        IDetail _eyesDetail,
+        IDetail _markDetail,
+        IDetail _maskDetail,
+        IDetail _mouthDetail,
+        IDetail _eyebrowDetail,
+        IDetail _earringsDetail,
+        IDetail _accessoryDetail,
+        IDetail _backgroundDetail
+    )
+        NFTDescriptor(
+            _bodyDetail,
+            _hairDetail,
+            _noseDetail,
+            _eyesDetail,
+            _markDetail,
+            _maskDetail,
+            _mouthDetail,
+            _eyebrowDetail,
+            _earringsDetail,
+            _accessoryDetail,
+            _backgroundDetail
+        )
+    {}
+
+    /* -------------------------------------------------------------------------- */
     /*                             EXTERNAL FUNCTIONS                             */
     /* -------------------------------------------------------------------------- */
 
@@ -194,9 +227,7 @@ contract OniiChainDescriptor {
         NFTDescriptor.SVGParams memory params = getSVGParams(tokenId);
 
         // Generate SVG Image
-        string memory image = Base64.encode(
-            bytes(NFTDescriptor.generateSVGImage(params))
-        );
+        string memory image = Base64.encode(bytes(generateSVGImage(params)));
 
         string memory name = NFTDescriptor.generateName(params, tokenId);
         string memory description = NFTDescriptor.generateDescription(owner);
